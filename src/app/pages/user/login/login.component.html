@@ -1,0 +1,36 @@
+<div class="bg-gray-100 p-4 flex justify-center items-center relative">
+    <!-- Video Background -->
+    <video autoplay loop muted class="absolute inset-0 object-cover w-full h-full">
+        <source src="../../../../assets/loginFormVideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Login Form -->
+    <div class="bg-slate-300 p-8 rounded-lg shadow-lg w-96 z-10">
+        <h2 class="text-2xl font-semibold mb-4">Login</h2>
+        <form class="space-y-4" [formGroup]="loginForm">
+            <div>
+                <label for="email" class="block font-medium">Email</label>
+                <input type="email" id="email" formControlName="email" class="form-input mt-1 block w-full rounded-md" required>
+            </div>
+            <div>
+                <label for="username" class="block font-medium">Username</label>
+                <input type="text" id="username" formControlName="username" class="form-input mt-1 block w-full rounded-md" required>
+            </div>
+            <div>
+                <div class="flex items-center justify-between">
+                  <label for="password" class="block font-medium">Password</label>
+                  <div class="text-sm">
+                    <a routerLink="/user/forgot-password" class="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">Forgot password?</a>
+                  </div>
+                </div>
+                <input type="password" id="password" formControlName="password" class="form-input mt-1 block w-full rounded-md" required>
+            </div>
+            <button class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600" (click)="loginData()">Login</button>
+            <p class="mt-10 text-center text-sm text-gray-500 cursor-pointer">
+              Not a member?
+              <a routerLink="/user/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register Now</a>
+            </p>
+        </form>
+    </div>
+</div>
