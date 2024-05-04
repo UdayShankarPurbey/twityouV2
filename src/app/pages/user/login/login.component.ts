@@ -30,6 +30,7 @@ export class LoginComponent {
       console.log(res)
       localStorage.setItem('accessToken',res.message.accessToken)
       localStorage.setItem('refreshToken',res.message.refreshToken)
+      //todo : redirection of page
     })
 
   }

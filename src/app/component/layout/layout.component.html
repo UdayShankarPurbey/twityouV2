@@ -9,11 +9,11 @@
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <a routerLink="#" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-                <a routerLink="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Trending</a>
-                <a routerLink="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Suscription</a>
-                <a routerLink="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Tweet</a>
-                <a routerLink="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Reports</a>
+                <a routerLink="/youtube/home" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
+                <a routerLink="/youtube/trending" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Trending</a>
+                <a routerLink="/youtube/subscriptions" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Suscription</a>
+                <a routerLink="/tweet/home" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Tweet</a>
+                <a routerLink="/youtube/report" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Reports</a>
               </div>
             </div>
           </div>
@@ -109,17 +109,30 @@
         </div>
       </div>
     </nav>
-  
-    <header class="bg-white shadow">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-      </div>
-    </header>
+    
     <main>
       <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <!-- Your content -->
         <router-outlet></router-outlet>
       </div>
     </main>
+
+    <footer class="bg-gray-900 text-white p-4 relative bottom-0 w-full">
+      <div class="container mx-auto">
+          <div class="flex justify-between items-center">
+              <div>
+                  <p>&copy; 2024 Your Company</p>
+              </div>
+              <div>
+                  <ul class="flex space-x-4">
+                      <li><a routerLink="/" class="hover:text-gray-400">About</a></li>
+                      <li><a routerLink="/" class="hover:text-gray-400">Services</a></li>
+                      <li><a routerLink="/" class="hover:text-gray-400">Contact</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+    </footer>
+  
   </div>
   

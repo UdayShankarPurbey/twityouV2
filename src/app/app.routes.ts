@@ -7,6 +7,7 @@ export const routes: Routes = [
         children : [
             { path : 'youtube' , loadChildren : () => import('./pages/youtube/youtube.module').then((m)=> m.YoutubeModule )},
             { path : 'tweet', loadChildren : () => import('./pages/tweet/tweet.module').then((m)=> m.TweetModule )},
+            { path : 'user', loadChildren : () => import('./pages/user/user.module').then((m)=> m.UserModule )},
         ]
     },
     { path : '**', component : PageNotDoundComponent }
