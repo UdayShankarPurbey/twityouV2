@@ -1,25 +1,36 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    HttpClientModule
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  videoData : any[] = [];
+  page : number = 1;
+  limit : number = 4;
+  constructor(
+    private http : HttpClient
+  ) {}
 
-  mouseEnter(event : MouseEvent) {
-    const video = event.target as HTMLVideoElement;
-    video.play();
+  ngOnInit(): void {
+    this.loadVideos();
+   
+  }  
+
+  loadVideos() {
+    this.http.get(`http://localhost:8000/api/v1/videos/?page=${this.page}&limit=${this.limit}`).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.videoData = res.message;
+      }
+    )
   }
-
-  mouserOut( event : MouseEvent) {
-    const video = event.target as HTMLVideoElement;
-    video.pause();
-    video.currentTime = 0; // Reset video to start
-  }
- 
-
-  
 }
