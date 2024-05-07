@@ -6,9 +6,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
-  { path : '', redirectTo : 'login', pathMatch : 'full'},
-  { path : 'login', component: LoginComponent},
-  { path : 'register', component: RegisterComponent},
+  { path : '', redirectTo : 'profile', pathMatch : 'full'},
   { path : 'profile', component : ProfileComponent},
   { path : 'forgot-password', component : ForgotPasswordComponent }
 ];

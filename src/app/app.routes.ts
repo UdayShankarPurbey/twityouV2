@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './component/layout/layout.component';
 import { PageNotDoundComponent } from './pages/page-not-dound/page-not-dound.component';
+import { LoginComponent } from './pages/user/login/login.component';
+import { RegisterComponent } from './pages/user/register/register.component';
 
 export const routes: Routes = [
+    {path : '', redirectTo : 'login', pathMatch : 'full'},
     { path : '', component : LayoutComponent ,
         children : [
             { path : 'youtube' , loadChildren : () => import('./pages/youtube/youtube.module').then((m)=> m.YoutubeModule )},
@@ -10,5 +13,7 @@ export const routes: Routes = [
             { path : 'user', loadChildren : () => import('./pages/user/user.module').then((m)=> m.UserModule )},
         ]
     },
+    { path : 'login', component : LoginComponent},
+    { path : 'register', component : RegisterComponent},
     { path : '**', component : PageNotDoundComponent }
 ];
