@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterLink
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -15,14 +17,13 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   videoData : any[] = [];
   page : number = 1;
-  limit : number = 4;
+  limit : number = 12;
   constructor(
     private http : HttpClient
   ) {}
 
   ngOnInit(): void {
     this.loadVideos();
-   
   }  
 
   loadVideos() {
