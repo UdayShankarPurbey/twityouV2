@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { TrendingComponent } from './trending/trending.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { ReportComponent } from './report/report.component';
+import { VideoPlayingPageComponent } from './video-playing-page/video-playing-page.component';
 
 const routes: Routes = [
   { path : '', redirectTo : 'home', pathMatch : 'full'},
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path : 'trending', component : TrendingComponent},
   { path : 'subscriptions', component : SubscriptionComponent},
   { path : 'report' , component : ReportComponent},
+  { path : 'video-play/:id', component : VideoPlayingPageComponent}
 ];
 
 @NgModule({
