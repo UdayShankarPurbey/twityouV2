@@ -1,0 +1,90 @@
+<div class="flex">
+  <!-- Left side - Video Player -->
+  <div class="w-2/3 mr-4">
+    <!-- Video Player -->
+    <div class="aspect-w-16 aspect-h-9 mb-4">
+      <!-- Your video player goes here -->
+      <div class="relative">
+          <!-- Video Player -->
+          <video id="videoPlayer" class="w-full h-full object-cover" controls>
+            <source [src]="videoData[0]?.videoFile" type="video/mp4" >
+            Your browser does not support the video tag.
+          </video>
+        
+          <!-- Image Overlay -->
+          <img [src]="videoData[0]?.thumbnail" alt="Video Thumbnail" class="absolute inset-0 w-full h-full object-cover cursor-pointer opacity-100" [ngClass]="{ 'hidden': thumbnailToshow }">
+        
+          <!-- Play and Pause Button -->
+          <!-- //pending: link this with video controller -->
+          <button class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-4" (click)="playVideo()" [ngStyle]="{ 'opacity': buttonOpacity }">
+            <svg *ngIf="!isVideoPlaying" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9.95 19.7c-.6.3-1.35-.05-1.35-.7V1c0-.65.75-1 1.2-.6l10.55 8.2c.55.4.55 1.2 0 1.6L9.95 19.7z"/>
+            </svg>
+            <svg *ngIf="isVideoPlaying" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-800" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M5 3h3v14H5V3zm7 0h3v14h-3V3z"/>
+            </svg>
+          </button>
+        </div>
+        
+    </div>
+
+    <!-- Video Title and Channel Name -->
+    <div class="flex justify-between items-center mb-4">
+      <div>
+        <h2 class="text-lg font-semibold">{{videoData?.title}}</h2>
+        <p class="text-sm text-gray-600">{{videoData?.ownerName}}</p>
+      </div>
+    </div>
+
+    <!-- Comment Section -->
+    <div class="mb-4">
+      <h2 class="text-lg font-semibold mb-2">Comments</h2>
+      <!-- Your comment section goes here -->
+      <!-- Example -->
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <div *ngFor="let comment of comments">
+          <div class="flex items-center mb-2">
+            <img [src]="comment?.ownerAvatar" alt="User Avatar" class="w-8 h-8 rounded-full mr-2">
+            <div class="flex flex-col">
+              <span class="font-semibold">{{comment?.ownerName}}</span>
+              <span class="text-sm text-gray-600">{{comment?.content}}</span>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <!-- Edit Comment -->
+            <button class="text-blue-500 mr-2" (click)="editComment(comment)">Edit</button>
+            <!-- Like Comment -->
+            <button class="text-green-500 mr-2" (click)="likeComment(comment)">Like</button>
+            <!-- Delete Comment -->
+            <button class="text-red-500 mr-2" (click)="deleteComment(comment)">Delete</button>
+            <!-- Comment on Comment -->
+            <button class="text-gray-500" (click)="commentOnComment(comment)">Comment</button>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+
+  <!-- Right side - Suggested Videos -->
+  <div class="w-1/3">
+    <h2 class="text-lg font-semibold mb-4">Suggested Videos</h2>
+    <!-- Your suggested videos list goes here -->
+    <!-- Example -->
+    <div class="mb-4" *ngFor="let video of suggestedVideo" >
+      <a class="flex" [routerLink]="['/youtube/video-play', video._id]">
+        <img [src]="video?.thumbnail" alt="Video Thumbnail" class="w-44 h-28 rounded-lg mb-2">
+        <div class="flex items-center m-3z1">
+          <img [src]="video?.ownerAvatar" alt="Channel Avatar" class="w-8 h-8 rounded-full mr-2">
+          <div>
+            <h3 class="font-semibold">{{video?.title}}</h3>
+            <p class="text-sm text-gray-600">{{video?.ownerName}}</p>
+          </div>
+        </div>
+      </a>
+      
+      
+    </div>
+    <!-- More suggested videos... -->
+  </div>
+</div>
