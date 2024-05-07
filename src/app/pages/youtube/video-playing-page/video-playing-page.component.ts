@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Router } from 'express';
+import { ErrorMsgService } from '../../../services/error-msg.service';
+import { ToasterService } from '../../../services/toaster.service';
+import { VideoService } from '../../../services/video/video.service';
+import { CommentService } from '../../../services/comment/comment.service';
 
 @Component({
   selector: 'app-video-playing-page',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
     RouterLink
   ],
   templateUrl: './video-playing-page.component.html',
@@ -28,7 +29,10 @@ export class VideoPlayingPageComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private http : HttpClient,
+    private errormsg : ErrorMsgService,
+    private message : ToasterService,
+    private video : VideoService,
+    private comment : CommentService,
   ) { }
 
 
@@ -39,16 +43,21 @@ export class VideoPlayingPageComponent implements OnInit {
 
     if(this.videoId) {
       this.loadVideo(this.videoId);
-      this.loadComment(this.videoId);
+      this.loadComment(this.videoId, 1 , 10);
     }
   }
 
   loadVideo(id : string) {
-    this.http.get(`http://localhost:8000/api/v1/videos/${this.videoId}`).subscribe((res : any) => {
+    this.video.getVideoById(this.videoId).subscribe((res : any) => {
       console.log(res)
       this.videoData = res?.message;
-      this.loadSuggestedVideo(res?.message[0]?.owner);
-    })
+      this.loadSuggestedVideo(1 , 10 ,res?.message[0]?.owner);
+    },
+    (error) => {
+      console.log(error.error);
+      this.message.showToast(this.errormsg.errorMsgDisp(error.error) , 'error')   
+    }
+  )
   }
 
   playVideo() {
@@ -63,16 +72,16 @@ export class VideoPlayingPageComponent implements OnInit {
     }
   }
 
-  loadComment(id : string) {
+  loadComment(id : string , page?: number , limit ?: number) {
     id = '6618cd7d84a383b5d4c5bd2f'
-    this.http.get(`http://localhost:8000/api/v1/comments/${id}/?page=1&limit=10`).subscribe((res : any) => {
+    this.comment.getVideoComment(id ,page,limit).subscribe((res : any) => {
       console.log(res)
       this.comments = res.message;
     })
   }
 
-  loadSuggestedVideo(ownerId : string) {
-    this.http.get(`http://localhost:8000/api/v1/videos/?page=1&limit=10&userId=${ownerId}`).subscribe((res : any) => {
+  loadSuggestedVideo(page : number , limit : number ,ownerId : string) {
+    this.video.getAllVideo(page ,limit ,ownerId).subscribe((res : any) => {
       console.log(res)
       this.suggestedVideo = res?.message
       this.suggestedVideo = this.suggestedVideo.filter((v : any) => v._id !== this.videoId)
