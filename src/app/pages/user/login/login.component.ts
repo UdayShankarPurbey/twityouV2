@@ -1,9 +1,9 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterModule,Router } from '@angular/router';
 import { ErrorMsgService } from '../../../services/error-msg.service';
 import { ToasterService } from '../../../services/toaster.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,6 @@ import { ToasterService } from '../../../services/toaster.service';
   imports: [
     RouterLink,
     ReactiveFormsModule,
-    HttpClientModule,
     RouterModule,
   ],
   templateUrl: './login.component.html',
@@ -20,10 +19,10 @@ import { ToasterService } from '../../../services/toaster.service';
 export class LoginComponent {
   loginForm : FormGroup
   constructor(private fb : FormBuilder ,
-    private http : HttpClient ,
     private router : Router,
     private errormsg : ErrorMsgService,
     private message : ToasterService,
+    private user : UserService
   ) {
     this.loginForm = this.fb.group({
       email: [''],
@@ -34,10 +33,10 @@ export class LoginComponent {
 
   loginData() {
     console.log(this.loginForm.value);
-    this.http.post('http://localhost:8000/api/v1/users/login',this.loginForm.value).subscribe((res : any) => {
+    this.user.login(this.loginForm.value).subscribe((res : any) => {
       console.log(res)
       localStorage.setItem('accessToken',res?.message?.accessToken)
-      localStorage.setItem('refreshToken',res?.message?.refreshToken)
+      this.message.showToast(res?.data , 'success')
       if(res?.message?.user) {
         this.router.navigate(['/youtube'])
       } else {
