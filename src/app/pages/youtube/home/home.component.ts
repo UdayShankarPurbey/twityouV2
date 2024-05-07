@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { VideoService } from '../../../services/video/video.service';
+import { error } from 'console';
+import { ErrorMsgService } from '../../../services/error-msg.service';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,
     RouterLink
   ],
   templateUrl: './home.component.html',
@@ -19,7 +21,9 @@ export class HomeComponent implements OnInit {
   page : number = 1;
   limit : number = 12;
   constructor(
-    private http : HttpClient
+    private video : VideoService,
+    private errormsg : ErrorMsgService,
+    private message : ToasterService,
   ) {}
 
   ngOnInit(): void {
@@ -27,10 +31,15 @@ export class HomeComponent implements OnInit {
   }  
 
   loadVideos() {
-    this.http.get(`http://localhost:8000/api/v1/videos/?page=${this.page}&limit=${this.limit}`).subscribe(
+
+    this.video.getAllVideo(this.page , this.limit).subscribe(
       (res: any) => {
         console.log(res);
         this.videoData = res.message;
+      },
+      (error) => {
+        console.log(error.error);
+        this.message.showToast(this.errormsg.errorMsgDisp(error.error) , 'error')   
       }
     )
   }
