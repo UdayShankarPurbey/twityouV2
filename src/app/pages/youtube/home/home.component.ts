@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { VideoService } from '../../../services/video/video.service';
 import { error } from 'console';
@@ -27,15 +27,14 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadVideos();
+    this.loadVideos(this.page , this.limit);
   }  
 
-  loadVideos() {
-
-    this.video.getAllVideo(this.page , this.limit).subscribe(
+  loadVideos(page : number , limit : number) {
+    this.video.getAllVideo(page , limit).subscribe(
       (res: any) => {
         console.log(res);
-        this.videoData = res.message;
+        this.videoData = [...this.videoData , ...res?.message];
       },
       (error) => {
         console.log(error.error);
@@ -43,4 +42,24 @@ export class HomeComponent implements OnInit {
       }
     )
   }
+ 
+  @HostListener('window:scroll', ['$event'])
+  handleScroll() {
+    // Your scroll handling code here
+    // console.log(`
+    // Scroll Height: ${document.documentElement.scrollHeight}px
+    // Scroll Top: ${document.documentElement.scrollTop}px
+    // Client Height: ${document.documentElement.clientHeight}px
+    // `);
+    if(document.documentElement.scrollTop + document.documentElement.clientHeight + 1 >= document.documentElement.scrollHeight) {
+      console.log(`
+    Scroll Height: ${document.documentElement.scrollHeight}px
+    Scroll Top: ${document.documentElement.scrollTop}px
+    Client Height: ${document.documentElement.clientHeight}px
+    `);
+      this.page += 1;
+      this.loadVideos(this.page , this.limit)
+    }
+  }
+
 }
