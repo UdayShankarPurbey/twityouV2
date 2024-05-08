@@ -1,7 +1,9 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { UserService } from '../../../services/user/user.service';
+import { ErrorMsgService } from '../../../services/error-msg.service';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-register',
@@ -9,16 +11,19 @@ import { RouterLink } from '@angular/router';
   imports: [
     RouterLink,
     ReactiveFormsModule,
-    HttpClientModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm : FormGroup;
+  avatarImage : any;
+  coverImage : any;
   constructor(
     private fb : FormBuilder ,
-    private http : HttpClient
+    private user : UserService,
+    private errormsg : ErrorMsgService,
+    private message : ToasterService,
   ) { 
     this.registerForm = fb.group({
       password:[],
@@ -26,34 +31,38 @@ export class RegisterComponent {
       email:[],
       username:[],
       mobNo:[],
-      avatarImage : [],
-      coverImage : [],
     })
   }
 
+  fileUpload(event : any ) {
+    if(event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(file,event.target.id);
+      if(event.target.id == 'avatarImage') {
+        this.avatarImage = file;
+      } else {
+        this.coverImage = file;
+      }
+    }
+  }
+
   userRegister() {
-    console.log(this.registerForm.value);
-    this.http.post('http://localhost:8000/api/v1/users/register', this.registerForm.value).subscribe((res : any) => console.log(res) )
+    const formData = new FormData();
+    formData.append('avatar',this.avatarImage);
+    formData.append('coverImage',this.coverImage);
+    for (const key in this.registerForm.value) {
+      formData.append(key, this.registerForm.value[key]);
+    }
+    this.user.register(formData).subscribe((res : any) => {
+      console.log(res);
+      this.message.showToast(res?.data , 'success')
+    },
+    (error) => {
+      console.log(error.error);
+      this.message.showToast(this.errormsg.errorMsgDisp(error.error) , 'error')   
+    }
+  )
 
   }
-//   this.http.post('http://localhost:8000/api/v1/users/login',this.loginForm.value).subscribe((res : any) => {
-//     console.log(res)
-//     localStorage.setItem('accessToken',res.message.accessToken)
-//     localStorage.setItem('refreshToken',res.message.refreshToken)
-//     if(res?.message?.user) {
-//       this.router.navigate(['/youtube'])
-//     } else {
-//       this.message.showToast('Login First' , "warning")
-//       this.router.navigate(['/login']);
-//     }
-
-//   },
-//   (error) => {
-//     console.log(error.error);
-//     this.message.showToast(this.errormsg.errorMsgDisp(error.error) , 'question')   
-//   }
-// )
-
-
 
 }
