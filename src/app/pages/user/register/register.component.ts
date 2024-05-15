@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
 import { ErrorMsgService } from '../../../services/error-msg.service';
 import { ToasterService } from '../../../services/toaster.service';
@@ -21,6 +21,7 @@ export class RegisterComponent {
   coverImage : any;
   constructor(
     private fb : FormBuilder ,
+    private router : Router,
     private user : UserService,
     private errormsg : ErrorMsgService,
     private message : ToasterService,
@@ -49,13 +50,22 @@ export class RegisterComponent {
   userRegister() {
     const formData = new FormData();
     formData.append('avatar',this.avatarImage);
-    formData.append('coverImage',this.coverImage);
+    if(this.coverImage) {
+      formData.append('coverImage',this.coverImage );
+    }
+    console.log(this.coverImage,this.avatarImage);
     for (const key in this.registerForm.value) {
       formData.append(key, this.registerForm.value[key]);
     }
     this.user.register(formData).subscribe((res : any) => {
       console.log(res);
       this.message.showToast(res?.data , 'success')
+      if(res?.message?.user) {
+        this.router.navigate(['/youtube'])
+      } else {
+        this.message.showToast('Login First' , "warning")
+        this.router.navigate(['/login']);
+      }
     },
     (error) => {
       console.log(error.error);

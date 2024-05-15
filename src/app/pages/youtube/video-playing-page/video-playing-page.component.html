@@ -42,23 +42,53 @@
       <!-- Your comment section goes here -->
       <!-- Example -->
       <div class="bg-gray-100 p-4 rounded-lg">
-        <div *ngFor="let comment of comments">
-          <div class="flex items-center mb-2">
-            <img [src]="comment?.ownerAvatar" alt="User Avatar" class="w-8 h-8 rounded-full mr-2">
+        <div class="mb-2 ">
+          <input #commentInputData type="text" placeholder="Add a comment..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" (click)="showButtons()">
+          <div id="commentButtons" class="mt-2" style="display: none;">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2" (click)="submitComment(commentInputData.value)">Submit</button>
+            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" (click)="cancelComment()">Cancel</button>
+          </div>
+        </div>
+        
+        <div *ngFor="let comment of comments" class="mb-4">
+          <div class="flex items-start mb-2">
+            <img [src]="comment?.ownerAvatar" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
             <div class="flex flex-col">
               <span class="font-semibold">{{comment?.ownerName}}</span>
               <span class="text-sm text-gray-600">{{comment?.content}}</span>
             </div>
           </div>
-          <div class="flex items-center">
-            <!-- Edit Comment -->
-            <button class="text-blue-500 mr-2" (click)="editComment(comment)">Edit</button>
-            <!-- Like Comment -->
+          <div class="flex items-center" *ngIf="!comment.isEditing">
+            <button *ngIf="comment?.owner == loggedInUserId" class="text-blue-500 mr-2" (click)="editComment(comment)">Edit</button>
             <button class="text-green-500 mr-2" (click)="likeComment(comment)">Like</button>
-            <!-- Delete Comment -->
-            <button class="text-red-500 mr-2" (click)="deleteComment(comment)">Delete</button>
-            <!-- Comment on Comment -->
+            <button *ngIf="comment?.owner == loggedInUserId" class="text-red-500 mr-2" (click)="deleteComment(comment)">Delete</button>
             <button class="text-gray-500" (click)="commentOnComment(comment)">Comment</button>
+          </div>
+          <div *ngIf="comment.isEditing" class="flex items-center mt-2">
+            <input [(ngModel)]="comment.isReplying" type="text" placeholder="Add a comment..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2" (click)="submitEditedComment(comment)">Submit</button>
+            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" (click)="cancelEdit(comment)">Cancel</button>
+          </div>
+
+          <div class="pl-12 mt-2" *ngFor="let subcomment of comment?.commentData">
+            <div  class="flex items-start mb-2">
+              <img [src]="subcomment?.ownerAvatar" alt="User Avatar" class="w-8 h-8 rounded-full mr-2">
+              <div class="flex flex-col">
+                <span class="font-semibold">{{subcomment?.ownerName}}</span>
+                <span class="text-sm text-gray-600">{{subcomment?.content}}</span>
+              </div>
+            </div>
+            <div *ngIf="!subcomment.isEditing" class="flex items-center">
+              <button *ngIf="subcomment?.owner == loggedInUserId"  class="text-blue-500 mr-2" (click)="editComment(subcomment)">Edit</button>
+              <button class="text-green-500 mr-2" (click)="likeComment(subcomment)">Like</button>
+              <button *ngIf="subcomment?.owner == loggedInUserId" class="text-red-500 mr-2" (click)="deleteComment(subcomment)">Delete</button>
+              <button class="text-gray-500" (click)="commentOnComment(subcomment)">Comment</button>
+            </div>
+            <div *ngIf="subcomment.isEditing" class="flex items-center mt-2">
+              <input [(ngModel)]="subcomment.isReplying" type="text" placeholder="Add a comment..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2" (click)="submitEditedComment(subcomment)">Submit</button>
+              <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" (click)="cancelEdit(subcomment)">Cancel</button>
+            </div>
           </div>
         </div>
       </div>

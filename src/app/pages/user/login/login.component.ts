@@ -35,7 +35,7 @@ export class LoginComponent {
     console.log(this.loginForm.value);
     this.user.login(this.loginForm.value).subscribe((res : any) => {
       console.log(res)
-      localStorage.setItem('accessToken',res?.message?.accessToken)
+      localStorage.setItem('loggedInUser',JSON.stringify(res?.message));
       this.message.showToast(res?.data , 'success')
       if(res?.message?.user) {
         this.router.navigate(['/youtube'])
