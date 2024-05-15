@@ -30,6 +30,7 @@ export class VideoPlayingPageComponent implements OnInit {
   isVideoPlaying : boolean = false;
   buttonOpacity : number = 1;
   loggedInUserId : any;
+  commentInputData : any;
 
   
 
@@ -161,9 +162,11 @@ export class VideoPlayingPageComponent implements OnInit {
   }
 
   submitComment(data ?: any) {
-    if(data) {
-      this.commentService.addComment(TypeEnum.Video,this.videoId , data).subscribe((res : any) => {
+    if(this.commentInputData) {
+      this.commentService.addComment(TypeEnum.Video,this.videoId , this.commentInputData).subscribe((res : any) => {
+        
         this.message.showToast(res?.data , 'success')
+        this.commentInputData = '';
         this.loadComment()
       } ,
       (error) => {
