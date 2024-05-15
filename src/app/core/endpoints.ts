@@ -11,4 +11,10 @@ export const end_points = {
     //comment
     "comment": "/comments",
     "commentUpdation" : "/comments/c",
+
+    //like 
+    "likeData" : "/likes",
+    "likeComment" : "/likes/toggle/c",
+    "likeVideo" : "/likes/toggle/v",
+    "likeTweet" : "/likes/toggle/t",
 }
