@@ -10,6 +10,7 @@ export const end_points = {
 
     //comment
     "comment": "/comments",
+    "commentReplied" : "/comments/comment",
     "commentUpdation" : "/comments/c",
 
     //like 

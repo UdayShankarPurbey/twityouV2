@@ -35,4 +35,12 @@ export class CommentService {
     }
     return this.http.post(`${environment.api_base_url+end_points.comment}/${type}/${id}`, reqobj, { headers: this.token.getToken() });
   }
+
+  addRepliedComment(id :string, content : any) {
+    let reqobj = {
+      content : content
+    }
+    return this.http.patch(`${environment.api_base_url+end_points.commentReplied}/${id}`, reqobj, { headers: this.token.getToken() });
+  }
+
 }

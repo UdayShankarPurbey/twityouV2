@@ -104,11 +104,6 @@ export class VideoPlayingPageComponent implements OnInit {
       return commentData?.message?.length > 0 ? commentData?.message : [];
     })
   }
-  // CommentofComment(commentId: string, page?: number, limit?: number) {
-  //   return this.commentService.getAllComment(CommentTypeEnum.Comment, commentId, page, limit).toPromise().then((commentData: any) => {
-  //     return commentData?.message?.length > 0 ? commentData?.message : [];
-  //   });
-  // }
 
   loadSuggestedVideo(page : number , limit : number ,ownerId : string) {
     this.video.getAllVideo(page ,limit ,ownerId).subscribe((res : any) => {
@@ -196,8 +191,8 @@ export class VideoPlayingPageComponent implements OnInit {
         this.message.showToast(this.errormsg.errorMsgDisp(error.error) , 'error')   
       })
     } else if(comment?.mode === 'subComment') {
-      // console.log(comment);
-      this.commentService.addComment(TypeEnum.Comment,comment?._id,comment?.isReplying).subscribe((res : any) => {
+      this.commentService.addRepliedComment(comment?._id,comment?.isReplying).subscribe((res : any) => {
+        console.warn(res);
         this.message.showToast(res?.data , 'success')
         this.loadComment();
       },
