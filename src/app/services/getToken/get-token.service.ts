@@ -13,12 +13,4 @@ export class GetTokenService {
     })
     return header;
   }
-
-  getLoggedInUserId() {
-    return JSON.parse(localStorage.getItem('loggedInUser') as string)?.user?._id;
-  }
-
-  getLoggedInUserData() {
-    return JSON.parse(localStorage.getItem('loggedInUser') as string)?.user;
-  }
 }
