@@ -10,7 +10,7 @@ export const end_points = {
 
     //comment
     "comment": "/comments",
-    "commentReplied" : "/comments/comment",
+    "commentReplied" : "/comments/comment/reply",
     "commentUpdation" : "/comments/c",
 
     //like 
@@ -18,4 +18,13 @@ export const end_points = {
     "likeComment" : "/likes/toggle/c",
     "likeVideo" : "/likes/toggle/v",
     "likeTweet" : "/likes/toggle/t",
+    "RepliedComment" : "/likes/toggle/reply/",  
+    "RepliedCount" : "/likes/toggle/data",
+    
+
+
+    //Tweet
+    "tweet" : "/tweets",
+    "tweetData" : "/tweets/user",
+
 }
