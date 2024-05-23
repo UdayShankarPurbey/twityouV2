@@ -3,8 +3,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { VideoService } from '../../../services/video/video.service';
 import { error } from 'console';
-import { ErrorMsgService } from '../../../services/error-msg.service';
-import { ToasterService } from '../../../services/toaster.service';
+import { ErrorMsgService } from '../../../services/errorMessage/error-msg.service';
+import { ToasterService } from '../../../services/toaster/toaster.service';
 
 @Component({
   selector: 'app-home',

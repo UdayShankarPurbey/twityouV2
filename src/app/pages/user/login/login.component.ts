@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterModule,Router } from '@angular/router';
-import { ErrorMsgService } from '../../../services/error-msg.service';
-import { ToasterService } from '../../../services/toaster.service';
+import { ErrorMsgService } from '../../../services/errorMessage/error-msg.service';
+import { ToasterService } from '../../../services/toaster/toaster.service';
 import { UserService } from '../../../services/user/user.service';
 
 @Component({

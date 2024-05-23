@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { GetTokenService } from '../../services/get-token.service';
+import { GetTokenService } from '../../services/getToken/get-token.service';
 import { CommonModule } from '@angular/common';
+import { LoggedInUserService } from '../../services/loggedInUser/logged-in-user.service';
 
 @Component({
   selector: 'app-layout',
@@ -17,9 +18,9 @@ import { CommonModule } from '@angular/common';
 export class LayoutComponent  implements OnInit {
   userData : any;
   modalVisibility : boolean = false;
-  constructor(private token : GetTokenService) {}
+  constructor(private loggedInUser : LoggedInUserService) {}
   ngOnInit(): void {
-    this.userData = this.token.getLoggedInUserData()
+    this.userData = this.loggedInUser.getLoggedInUserData()
     console.log(this.userData);
   }
 

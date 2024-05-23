@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
-import { ErrorMsgService } from '../../../services/error-msg.service';
-import { ToasterService } from '../../../services/toaster.service';
+import { ErrorMsgService } from '../../../services/errorMessage/error-msg.service';
+import { ToasterService } from '../../../services/toaster/toaster.service';
 
 @Component({
   selector: 'app-register',

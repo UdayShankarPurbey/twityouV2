@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ErrorMsgService } from '../../../services/error-msg.service';
-import { ToasterService } from '../../../services/toaster.service';
+import { ErrorMsgService } from '../../../services/errorMessage/error-msg.service';
+import { ToasterService } from '../../../services/toaster/toaster.service';
 import { VideoService } from '../../../services/video/video.service';
 import { CommentService } from '../../../services/comment/comment.service';
 import { LikeService } from '../../../services/like/like.service';
 import { FormsModule } from '@angular/forms';
-import { GetTokenService } from '../../../services/get-token.service';
+import { GetTokenService } from '../../../services/getToken/get-token.service';
 import { TypeEnum } from '../../../core/type-enum';
+import { LoggedInUserService } from '../../../services/loggedInUser/logged-in-user.service';
 
 @Component({
   selector: 'app-video-playing-page',
@@ -41,12 +42,12 @@ export class VideoPlayingPageComponent implements OnInit {
     private video : VideoService,
     private commentService : CommentService,
     private like : LikeService,
-    private token : GetTokenService,
+    private loggedInUser : LoggedInUserService,
   ) { }
 
 
   ngOnInit(): void {
-    this.loggedInUserId = this.token.getLoggedInUserId();
+    this.loggedInUserId = this.loggedInUser.getLoggedInUserId();
     this.activeRoute.paramMap.subscribe(params => {
       this.videoId = params.get('id') || '';
     });

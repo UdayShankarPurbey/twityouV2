@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { end_points } from '../../core/endpoints';
-import { GetTokenService } from '../get-token.service';
+import { GetTokenService } from '../getToken/get-token.service';
 
 @Injectable({
   providedIn: 'root'
