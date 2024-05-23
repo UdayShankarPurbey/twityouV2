@@ -1,91 +1,161 @@
-<ul role="list" class="divide-y divide-gray-100">
-    <li class="flex justify-between gap-x-6 py-5">
-      <div class="flex min-w-0 gap-x-4">
-        <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-gray-900">Leslie Alexander</p>
-          <p class="mt-1 truncate text-xs leading-5 text-gray-500">leslie.alexander&#64;example.com</p>
-        </div>
-      </div>
-      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm leading-6 text-gray-900">Co-Founder / CEO</p>
-        <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-      </div>
-    </li>
-    <li class="flex justify-between gap-x-6 py-5">
-      <div class="flex min-w-0 gap-x-4">
-        <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-gray-900">Michael Foster</p>
-          <p class="mt-1 truncate text-xs leading-5 text-gray-500">michael.foster&#64;example.com</p>
-        </div>
-      </div>
-      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm leading-6 text-gray-900">Co-Founder / CTO</p>
-        <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-      </div>
-    </li>
-    <li class="flex justify-between gap-x-6 py-5">
-      <div class="flex min-w-0 gap-x-4">
-        <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-gray-900">Dries Vincent</p>
-          <p class="mt-1 truncate text-xs leading-5 text-gray-500">dries.vincent&#64;example.com</p>
-        </div>
-      </div>
-      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm leading-6 text-gray-900">Business Relations</p>
-        <div class="mt-1 flex items-center gap-x-1.5">
-          <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-            <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
+<div class="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+  <!-- Sidebar -->
+  <aside class="col-span-1">
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-4">Trending</h2>
+      <ul>
+        <li class="mb-2"><a href="#" class="text-blue-500 hover:text-blue-700">#TailwindCSS</a></li>
+        <li class="mb-2"><a href="#" class="text-blue-500 hover:text-blue-700">#JavaScript</a></li>
+        <li class="mb-2"><a href="#" class="text-blue-500 hover:text-blue-700">#WebDevelopment</a></li>
+        <li class="mb-2"><a href="#" class="text-blue-500 hover:text-blue-700">#Coding</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Feed -->
+  <main class="col-span-2">
+    <div class="bg-white p-4 rounded-lg shadow mb-4">
+      <textarea [(ngModel)]="userTweetInputData" placeholder="What's In Your Mind Share Via Tweeting?" class="w-full p-4 border rounded-lg mb-4"></textarea>
+      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg" (click)="createTweet()">Tweet</button>
+    </div>
+
+    <div class="bg-white p-4 rounded-lg shadow mb-4 tweet">
+      <div class="flex items-start flex-col space-y-6" *ngFor="let tweet of userTweetData">
+        <div class="flex items-start w-full">
+          <img [src]="tweet?.ownerAvatar" alt="User Avatar" class="w-24 h-24 rounded-full mr-4">
+          <div class="w-full">
+            <h3 class="font-bold">{{tweet?.ownerName}}</h3>
+            <p class="text-sm text-gray-500">{{tweet?.ownerUsername}} · {{tweet?.updatedAt | timeAgoPipe}}</p>
+            <p class="tweet-text mt-2">{{tweet?.content}}</p>
+            <div class="mt-4 flex items-center justify-between">
+              <div>
+                <button *ngIf="tweet?.isLiked" class="text-red-500 hover:text-red-800 mr-4" (click)="toggleLike(tweet,'tweet')"><i class="fas fa-heart"></i> UnLike</button>
+                <button *ngIf="!tweet?.isLiked" class="text-red-900 hover:text-red-500 mr-4" (click)="toggleLike(tweet,'tweet')"><i class="far fa-heart"></i> Like</button>
+                <span class="text-gray-500 mr-4"> {{tweet.likeCount || 0}}</span>
+                <button class="text-gray-500 hover:text-blue-500 mr-4 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed" [disabled]="tweet?.isEditing" (click)="commentData(tweet)"><i class="far fa-comment"></i> Comment</button>
+                <button class="text-gray-500 hover:text-green-500 mr-4" (click)="retweetTweet(tweet)"><i class="far fa-retweet"></i> Retweet</button>
+                <button class="text-gray-500 hover:text-purple-500 mr-4" (click)="showComment()"><i class="fas fa-comments"></i> Show Comments</button>
+              </div>
+              <div>
+                <button class="text-gray-500 hover:text-yellow-500 mr-4" *ngIf="tweet?.owner == loggedInUser" (click)="editData(tweet)"><i class="fas fa-edit"></i> Edit</button>
+                <button class="text-gray-500 hover:text-red-500" *ngIf="tweet?.owner == loggedInUser" (click)="deleteData(tweet,'tweet')"><i class="fas fa-trash" ></i> Delete</button>
+              </div>
+            </div>
+            <input type="text" class="w-full p-2 border rounded-lg mt-2" placeholder="Enter Comment ... " [hidden]="!tweet?.isEditing" [(ngModel)]="tweet.inputData">
+            <div class="mt-2 flex space-x-2">
+              <button class="bg-green-500 text-white px-4 py-2 rounded-lg" [hidden]="!tweet?.isEditing" (click)="submitReply(tweet ,'tweet')">Submit</button>
+              <button class="bg-red-500 text-white px-4 py-2 rounded-lg" [hidden]="!tweet?.isEditing" (click)="cancelReply(tweet)">Cancel</button>
+            </div>
+            <!-- Comment Area of Tweet  -->
+            <div class="comments-section mt-4">
+              <div class="bg-gray-100 p-4 rounded-lg mb-4 comment" *ngFor="let comment of tweet?.commentData">
+                <div class="flex items-start">
+                  <img [src]="comment?.ownerAvatar" alt="Commenter Avatar" class="w-12 h-12 rounded-full mr-4">
+                  <div class="w-full">
+                    <p class="font-bold">{{comment?.ownerName}}</p>
+                    <p class="text-sm text-gray-500">{{comment?.ownerUserName}} · {{comment?.updatedAt | timeAgoPipe}}</p>
+                    <p class="comment-text">{{comment?.content}}</p>
+                    <div class="mt-2 flex items-center justify-between">
+                      <div>
+                        <button *ngIf="comment?.isLiked" class="text-red-500 hover:text-red-800 mr-4" (click)="toggleLike(comment,'comment')"><i class="fas fa-heart"></i> UnLike</button>
+                        <button *ngIf="!comment?.isLiked" class="text-red-900 hover:text-red-500 mr-4" (click)="toggleLike(comment,'comment')"><i class="far fa-heart"></i> Like</button>   
+                        <span class="text-gray-500 mr-4">{{comment.likeCount || 0}}</span>                
+                        <button class="text-gray-500 hover:text-blue-500 mr-4 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed" [disabled]="comment?.isEditing" (click)="commentData(comment)"><i class="far fa-comment"></i> Comment</button>
+                        <button class="text-gray-500 hover:text-purple-500 mr-4" (click)="showComment()"><i class="fas fa-comments"></i> Show Comments</button>
+                      </div>
+                      <div>
+                        <button *ngIf="comment?.owner == loggedInUser" class="text-gray-500 hover:text-yellow-500 mr-4" (click)="editData(comment)"><i class="fas fa-edit"></i> Edit</button>
+                        <button *ngIf="comment?.owner == loggedInUser" class="text-gray-500 hover:text-red-500" (click)="deleteData(comment,'comment')"><i class="fas fa-trash" ></i> Delete</button>
+                      </div>
+                    </div>
+                    <input type="text" class="w-full p-2 border rounded-lg mt-2 " placeholder="Enter Comment ..." [hidden]="!comment?.isEditing" [(ngModel)]="comment.inputData">
+                    <div class="mt-2 flex space-x-2">
+                      <button class="bg-green-500 text-white px-4 py-2 rounded-lg" [hidden]="!comment?.isEditing" (click)="submitReply(comment ,'comment')">Submit</button>
+                      <button class="bg-red-500 text-white px-4 py-2 rounded-lg" [hidden]="!comment?.isEditing" (click)="cancelReply(comment)">Cancel</button>
+                    </div>
+                    <!-- Sub-comments section -->
+                    <div class="sub-comments-section mt-4 ml-4" *ngFor="let subComment of comment?.commentData">
+                      <div class="bg-gray-200 p-4 rounded-lg mb-4 sub-comment">
+                        <div class="flex items-start">
+                          <img [src]="subComment?.ownerAvatar" alt="Sub-Commenter Avatar" class="w-10 h-10 rounded-full mr-4">
+                          <div class="w-full">
+                            <p class="font-bold">{{subComment?.ownerName}}</p>
+                            <p class="text-sm text-gray-500">{{subComment?.ownerUserName}} · {{subComment?.updatedAt | timeAgoPipe}}</p>
+                            <p class="comment-text">{{subComment?.content}}</p>
+                            <div class="mt-2 flex items-center justify-between">
+                              <div>
+                                <button *ngIf="subComment?.isLiked" class="text-red-500 hover:text-red-800 mr-4" (click)="toggleLike(subComment,'subComment')"><i class="fas fa-heart"></i> UnLike</button>
+                                <button *ngIf="!subComment?.isLiked" class="text
+                                -red-900 hover:text-red-500 mr-4" (click)="toggleLike(subComment,'subComment')"><i class="far fa-heart"></i> Like</button>
+                                <span class="text-gray-500 mr-4">{{subComment.likeCount || 0}}</span>
+                                <button class="text-gray-500 hover:text-blue-500 mr-4 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed" [disabled]="subComment?.isEditing" (click)="commentData(subComment)"><i class="far fa-comment"></i> Comment</button>
+                                <button class="text-gray-500 hover:text-purple-500 mr-4"><i class="fas fa-comments"></i> Show Comments</button>
+                              </div>
+                              <div>
+                                <button *ngIf="subComment?.owner == loggedInUser" class="text-gray-500 hover:text-yellow-500 mr-4" (click)="editData(subComment)"><i class="fas fa-edit" ></i> Edit</button>
+                                <button *ngIf="subComment?.owner == loggedInUser" class="text-gray-500 hover:text-red-500" (click)="deleteData(subComment,'subComment')"><i class="fas fa-trash" ></i> Delete</button>
+                              </div>
+                            </div>
+                            <input type="text" class="w-full p-2 border rounded-lg mt-2" placeholder="Enter Comment ..." [hidden]="!subComment?.isEditing" [(ngModel)]="subComment.inputData">
+                            <div class="mt-2 flex space-x-2">
+                              <button class="bg-green-500 text-white px-4 py-2 rounded-lg" [hidden]="!subComment?.isEditing" (click)="submitReply(subComment ,'subComment')" >Submit</button>
+                              <button class="bg-red-500 text-white px-4 py-2 rounded-lg" [hidden]="!subComment?.isEditing" (click)="cancelReply(subComment)">Cancel</button>
+                            </div>
+                            
+                            <div class="mt-2 flex items-center justify-end">
+                              <button *ngIf="subComment?.owner == loggedInUser" class="text-gray-500 hover:text-yellow-500 mr-4" (click)="editData(subComment)"><i class="fas fa-edit" ></i> Edit</button>
+                              <button *ngIf="subComment?.owner == loggedInUser" class="text-gray-500 hover:text-red-500" (click)="deleteData(subComment,'subComment')"><i class="fas fa-trash" ></i> Delete</button>
+                            </div>
+                            <!-- Sub-sub-comments section -->
+                            <ng-container *ngFor="let repliedComment of subComment?.repliedComment">
+                              <ng-container *ngIf="repliedComment?.ownerDetails && !isEmptyObject(repliedComment.ownerDetails)" >
+                                <div class="sub-sub-comments-section mt-4 ml-4" >
+                                  <div class="bg-gray-300 p-4 rounded-lg mb-4 sub-sub-comment">
+                                    <div class="flex items-start">
+                                      <img [src]="repliedComment?.ownerDetails?.avatar" alt="Sub-Sub-Commenter Avatar" class="w-8 h-8 rounded-full mr-4">
+                                      <div class="w-full">
+                                        <p class="font-bold">{{repliedComment?.ownerDetails?.fullName}}</p>
+                                        <p class="text-sm text-gray-500">{{repliedComment?.ownerDetails?.username}} · {{repliedComment?.updatedAt | timeAgoPipe}}</p>
+                                        <p class="comment-text">{{repliedComment?.commentText}}</p>
+                                        <div class="mt-2 flex items-center justify-between">
+                                          <div>
+                                            <button *ngIf="repliedComment?.isLiked" class="text-red-500 hover:text-red-800 mr-4" (click)="toggleLike(repliedComment,'repliedComment',subComment?._id)"><i class="fas fa-heart"></i> UnLike</button>
+                                            <button *ngIf="!repliedComment?.isLiked" class="text-red-900 hover:text-red-500 mr-4" (click)="toggleLike(repliedComment,'repliedComment',subComment?._id)"><i class="far fa-heart"></i> Like</button>   
+                                            <span class="text-gray-500 mr-4">{{repliedComment.likeCount || 0}}</span>  
+                                          </div>
+                
+                                          <button class="text-gray-500 hover:text-yellow-500 mr-4" *ngIf="repliedComment?.commentBy == loggedInUser" (click)="editData(repliedComment)" ><i class="fas fa-edit"></i> Edit</button>
+                                          <button class="text-gray-500 hover:text-red-500" *ngIf="repliedComment?.commentBy == loggedInUser" (click)="deleteData(repliedComment,'repliedComment',subComment?._id)"><i class="fas fa-trash" ></i> Delete</button>
+                                        </div>
+                                        <input type="text" class="w-full p-2 border rounded-lg mt-2" placeholder="Enter Comment ..." [hidden]="!repliedComment?.isEditing" [(ngModel)]="repliedComment.inputData">
+                                        <div class="mt-2 flex space-x-2 ">
+                                          <button class="bg-green-500 text-white px-4 py-2 rounded-lg" [hidden]="!repliedComment?.isEditing" (click)="submitReply(repliedComment ,'repliedComment',subComment?._id)">Submit</button>
+                                          <button class="bg-red-500 text-white px-4 py-2 rounded-lg" [hidden]="!repliedComment?.isEditing" (click)="cancelReply(repliedComment)">Cancel</button>
+                                        </div>
+                                       
+                                       
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- More sub-sub-comments can be added here -->
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                           
+                          </div>
+                        </div>
+                      </div>
+                      <!-- More sub-comments can be added here -->
+                    </div>
+                  </div>
+                </div>
+                <!-- More comments can be added here -->
+                
+              </div>
+            </div>
           </div>
-          <p class="text-xs leading-5 text-gray-500">Online</p>
         </div>
       </div>
-    </li>
-    <li class="flex justify-between gap-x-6 py-5">
-      <div class="flex min-w-0 gap-x-4">
-        <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-gray-900">Lindsay Walton</p>
-          <p class="mt-1 truncate text-xs leading-5 text-gray-500">lindsay.walton&#64;example.com</p>
-        </div>
-      </div>
-      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm leading-6 text-gray-900">Front-end Developer</p>
-        <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-      </div>
-    </li>
-    <li class="flex justify-between gap-x-6 py-5">
-      <div class="flex min-w-0 gap-x-4">
-        <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-gray-900">Courtney Henry</p>
-          <p class="mt-1 truncate text-xs leading-5 text-gray-500">courtney.henry&#64;example.com</p>
-        </div>
-      </div>
-      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm leading-6 text-gray-900">Designer</p>
-        <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-      </div>
-    </li>
-    <li class="flex justify-between gap-x-6 py-5">
-      <div class="flex min-w-0 gap-x-4">
-        <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-gray-900">Tom Cook</p>
-          <p class="mt-1 truncate text-xs leading-5 text-gray-500">tom.cook&#64;example.com</p>
-        </div>
-      </div>
-      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm leading-6 text-gray-900">Director of Product</p>
-        <div class="mt-1 flex items-center gap-x-1.5">
-          <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-            <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
-          </div>
-          <p class="text-xs leading-5 text-gray-500">Online</p>
-        </div>
-      </div>
-    </li>
-  </ul>
-  
+    </div>
+  </main>
+</div>
