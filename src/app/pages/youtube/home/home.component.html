@@ -5,8 +5,8 @@
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">      
         <div *ngFor="let video of videoData">
           <a [routerLink]="['/youtube/video-play', video._id]" class="group relative">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 relative">
-              <video [src]="video.videoFile" type="video/mp4" class="h-full w-full object-cover object-center group-hover:opacity-100 opacity-0 transition-opacity duration-300" alt="Video Not Found" autoplay loop muted></video>
+            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 relative" (mousemove)="getvideoData(video)">
+              <video [src]="video.videoFile"  type="video/mp4" class="h-full w-full object-cover object-center group-hover:opacity-100 opacity-0 transition-opacity duration-300" alt="Video Not Found" autoplay loop muted></video>
               <img [src]="video.thumbnail" class="absolute inset-0 h-full w-full object-cover object-center opacity-100 transition-opacity duration-300 group-hover:opacity-0 z-10" alt="Image Not Found">
               <span class="absolute bottom-0 right-0 bg-black text-white px-2 py-1 m-2 rounded">{{ video.duration | number: '1.0-2' }}s</span>
             </div>

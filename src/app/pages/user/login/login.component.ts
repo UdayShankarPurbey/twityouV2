@@ -32,7 +32,6 @@ export class LoginComponent {
   }
 
   loginData() {
-    console.log(this.loginForm.value);
     this.user.login(this.loginForm.value).subscribe((res : any) => {
       console.log(res)
       localStorage.setItem('loggedInUser',JSON.stringify(res?.message));

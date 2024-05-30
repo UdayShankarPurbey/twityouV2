@@ -62,4 +62,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  getvideoData(data : any) {
+    return data?.videoFile;
+  }
 }

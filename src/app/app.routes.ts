@@ -3,6 +3,7 @@ import { LayoutComponent } from './component/layout/layout.component';
 import { PageNotDoundComponent } from './pages/page-not-dound/page-not-dound.component';
 import { LoginComponent } from './pages/user/login/login.component';
 import { RegisterComponent } from './pages/user/register/register.component';
+import { LogoutComponent } from './pages/user/logout/logout.component';
 
 export const routes: Routes = [
     {path : '', redirectTo : 'login', pathMatch : 'full'},
@@ -15,5 +16,6 @@ export const routes: Routes = [
     },
     { path : 'login', component : LoginComponent},
     { path : 'register', component : RegisterComponent},
+    { path : 'logout', component : LogoutComponent },
     { path : '**', component : PageNotDoundComponent }
 ];
